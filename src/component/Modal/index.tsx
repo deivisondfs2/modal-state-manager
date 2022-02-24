@@ -1,24 +1,30 @@
-import { useState } from "react";
 import close from "../../assets/close.svg";
+import { useModal } from "../../hooks/Modal";
 import "./styles.css";
 const Modal = () => {
-  const [visible, setVisible] = useState(false);
+  const { modal, closeModal } = useModal();
 
-  if (!visible) {
+  const isVisible = modal.visible;
+
+  const handleClose = () => {
+    closeModal();
+  };
+
+  if (!isVisible) {
     return null;
   }
 
   return (
-    <div className="modal-background">
+    <div className="modal-background" onClick={handleClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <header className="close-btn">
-          <button className="btn">
+          <button className="btn" onClick={handleClose}>
             <img src={close} alt="close" />
           </button>
         </header>
         <div className="modal-body">
-          <h2>Title</h2>
-          <p>Description</p>
+          <h2>{modal.title}</h2>
+          <p>{modal.description}</p>
         </div>
       </div>
     </div>
